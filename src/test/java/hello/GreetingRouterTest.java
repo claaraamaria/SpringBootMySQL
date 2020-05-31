@@ -15,7 +15,7 @@ public class GreetingRouterTest {
 
 	// Spring Boot will create a `WebTestClient` for you,
 	// already configure and ready to issue requests against "localhost:RANDOM_PORT"
-	@Autowired
+	/*@Autowired
 	private WebTestClient webTestClient;
 
 	@Test
@@ -28,5 +28,5 @@ public class GreetingRouterTest {
 			// and use the dedicated DSL to test assertions against the response
 			.expectStatus().isOk()
 			.expectBody(String.class).isEqualTo("Hello, Spring!");
-	}
+	}*/
 }
