@@ -1,8 +1,14 @@
-package accessingdatamysql;
+package rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import rest.repository.GameRepository;
+import rest.repository.RoomRepository;
+import rest.repository.UserRepository;
+import rest.entity.Game;
+import rest.entity.Room;
+import rest.entity.User;
 
 @Controller
 @RequestMapping(path = "/")
@@ -62,6 +68,7 @@ public class MainController {
         return roomRepository.findAll();
     }
 //curl localhost:8080/rooms -d roomName=TicTacToeGame -d gameId=6 -d userId=10
+//curl http://server-env.eba-xyvg76az.eu-central-1.elasticbeanstalk.com/users -d userName=TicTacToeGame -d password=nu_am_parola
 }
 
 

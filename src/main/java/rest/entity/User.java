@@ -1,4 +1,4 @@
-package accessingdatamysql;
+package rest.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
