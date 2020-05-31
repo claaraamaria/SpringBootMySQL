@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
-    <artifactId>gs-reactive-rest-service</artifactId>
+    <artifactId>clara-rest-server</artifactId>
     <version>0.1.0</version>
 	<packaging>jar</packaging>
 

@@ -19,16 +19,6 @@ public class MainController {
     @Autowired private RoomRepository roomRepository;
     @Autowired private GameRepository gameRepository;
 
-    @PostMapping(path = "/users")
-    public @ResponseBody
-    String addNewUser(@RequestParam String userName, @RequestParam String password) {
-        User newUser = new User();
-        newUser.setUserName(userName);
-        newUser.setPassword(password);
-        usersRepository.save(newUser);
-        return "User Saved";
-    }
-
     @PostMapping(path = "/games")
     public @ResponseBody
     String addNewGame(@RequestParam String gameName) {
@@ -50,12 +40,6 @@ public class MainController {
         return "Room Created";
     }
 
-    @GetMapping(path = "/users")
-    public @ResponseBody
-    Iterable<User> getAllUsers() {
-        return usersRepository.findAll();
-    }
-
     @GetMapping(path = "/games")
     public @ResponseBody
     Iterable<Game> getAllGames() {
@@ -67,7 +51,9 @@ public class MainController {
     Iterable<Room> getAllRooms() {
         return roomRepository.findAll();
     }
-//curl localhost:8080/rooms -d roomName=TicTacToeGame -d gameId=6 -d userId=10
+//curl localhost:5000/rooms -d roomName=TicTacToeGame -d gameId=6 -d userId=10
+//curl http://server-env.eba-xyvg76az.eu-central-1.elasticbeanstalk.com/users -d userName=TicTacToeGame -d password=nu_am_parola
+//curl -X DELETE http://localhost:5000/users/10
 //curl http://server-env.eba-xyvg76az.eu-central-1.elasticbeanstalk.com/users -d userName=TicTacToeGame -d password=nu_am_parola
 }
 
