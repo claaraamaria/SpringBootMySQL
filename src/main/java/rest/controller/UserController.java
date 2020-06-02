@@ -30,7 +30,7 @@ public class UserController {
 
     @PutMapping
     public @ResponseBody
-    void update(@RequestParam User user) {
+    void update(@RequestBody User user) {
         User savedUser = usersRepository.save(user);
     }
 
