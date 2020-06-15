@@ -17,7 +17,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json")
     public @ResponseBody
     String addNewUser(@RequestBody User user) {
         userRepository.save(user);

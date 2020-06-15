@@ -8,25 +8,30 @@ import rest.entity.Room;
 import rest.entity.User;
 import rest.repository.GameRepository;
 
+import static org.springframework.data.jpa.domain.Specification.where;
+import static rest.repository.GameSpecification.isGameName;
+
 @Controller
 @RequestMapping(path = "/games")
 public class GameController {
     @Autowired
     private GameRepository gameRepository;
 
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public @ResponseBody
-    String addNewGame(@RequestParam String gameName) {
-        Game newGame = new Game();
-        newGame.setGameName(gameName);
-        gameRepository.save(newGame);
+    String addNewGame(@RequestBody Game game) {
+        gameRepository.save(game);
         return "Game Saved";
     }
 
     @GetMapping
     public @ResponseBody
-    Iterable<Game> list() {
-        return gameRepository.findAll();
+    Iterable<Game> list(@RequestParam(required = false) String gameName) {
+        if (gameName == null) {
+            return gameRepository.findAll();
+        } else {
+            return gameRepository.findAll(where(isGameName(gameName)));
+        }
     }
 
     @PutMapping
