@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import rest.entity.User;
 import rest.repository.UserRepository;
-import rest.repository.UserSpecification;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 import static org.springframework.util.StringUtils.isEmpty;
@@ -16,47 +15,35 @@ import static rest.repository.UserSpecification.isUserName;
 @RequestMapping(path = "/users")
 public class UserController {
     @Autowired
-    private UserRepository usersRepository;
+    private UserRepository userRepository;
 
-    @PostMapping
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public @ResponseBody
-    String addNewUser(@RequestParam String userName, @RequestParam String password, @RequestParam String name, @RequestParam String email, @RequestParam int telephone) {
-        User newUser = new User();
-        newUser.setUserName(userName);
-        newUser.setPassword(password);
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setTelephone(telephone);
-        usersRepository.save(newUser);
+    String addNewUser(@RequestBody User user) {
+        userRepository.save(user);
         return "User Saved";
     }
 
     @GetMapping
     public @ResponseBody
-    Iterable<User> searchBy(@RequestParam String userName, @RequestParam String password) {
+    Iterable<User> searchBy(@RequestParam(required = false) String userName, @RequestParam(required = false) String password) {
         if (isEmpty(userName) && isEmpty(password)) {
-            return usersRepository.findAll();
+            return userRepository.findAll();
         } else {
-            return usersRepository.findAll(where(isUserName(userName)).and(isPassword(password)));
+            return userRepository.findAll(where(isUserName(userName)).and(isPassword(password)));
         }
     }
 
-   /* @GetMapping("/")
-    public @ResponseBody
-    Iterable<User> list() {
-        return usersRepository.findAll(); //TODO: figure out how to call just /users without params
-    }*/
-
-    @PutMapping
+    @PutMapping(consumes = "application/json")
     public @ResponseBody
     void update(@RequestBody User user) {
-        User savedUser = usersRepository.save(user);
+        User savedUser = userRepository.save(user);
     }
 
     @DeleteMapping("/{id}")
     public @ResponseBody
     void delete(@PathVariable("id") int id) {
-        usersRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 }
 
