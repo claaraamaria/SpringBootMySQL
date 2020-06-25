@@ -1,15 +1,21 @@
 package rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import rest.entity.Game;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import rest.entity.Room;
 import rest.repository.RoomRepository;
 
-import static org.springframework.data.jpa.domain.Specification.where;
-import static rest.repository.RoomSpecification.isRoomName;
+import java.util.List;
 
 @Controller
 
@@ -27,11 +33,11 @@ public class RoomController {
 
     @GetMapping
     public @ResponseBody
-    Iterable<Room> list(@RequestParam(required = false) String roomName) {
+    List<Room> list(@RequestParam(required = false) String roomName) {
         if (roomName == null) {
-            return roomRepository.findAll();
+            return roomRepository.findAll(Sort.unsorted());
         } else {
-            return roomRepository.findAll(where(isRoomName(roomName)));
+            return roomRepository.findByRoomName(roomName);
         }
     }
 

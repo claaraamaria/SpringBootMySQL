@@ -1,8 +1,10 @@
 package rest.repository;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import rest.entity.Room;
 
-public interface RoomRepository extends CrudRepository<Room, Integer>, JpaSpecificationExecutor<Room> {
+import java.util.List;
+
+public interface RoomRepository extends JpaRepository<Room, Integer> {
+    List<Room> findByRoomName(String roomName);
 }

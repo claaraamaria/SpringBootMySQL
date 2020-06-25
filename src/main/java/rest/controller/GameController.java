@@ -1,15 +1,21 @@
 package rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import rest.entity.Game;
-import rest.entity.Room;
-import rest.entity.User;
 import rest.repository.GameRepository;
 
-import static org.springframework.data.jpa.domain.Specification.where;
-import static rest.repository.GameSpecification.isGameName;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/games")
@@ -26,11 +32,11 @@ public class GameController {
 
     @GetMapping
     public @ResponseBody
-    Iterable<Game> list(@RequestParam(required = false) String gameName) {
+    List<Game> list(@RequestParam(required = false) String gameName) {
         if (gameName == null) {
-            return gameRepository.findAll();
+            return gameRepository.findAll(Sort.unsorted());
         } else {
-            return gameRepository.findAll(where(isGameName(gameName)));
+            return gameRepository.findByGameName(gameName);
         }
     }
 

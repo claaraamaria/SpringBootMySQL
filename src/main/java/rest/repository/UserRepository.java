@@ -1,9 +1,12 @@
 package rest.repository;
 
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import rest.entity.User;
 
-public interface UserRepository extends CrudRepository<User, Integer>, JpaSpecificationExecutor<User>{
+import java.util.List;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+
+    List<User> findByUserNameAndPassword(String username, String password);
 
 }

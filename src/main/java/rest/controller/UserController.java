@@ -1,15 +1,23 @@
 package rest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import rest.entity.User;
 import rest.repository.UserRepository;
 
-import static org.springframework.data.jpa.domain.Specification.where;
+import java.util.List;
+
 import static org.springframework.util.StringUtils.isEmpty;
-import static rest.repository.UserSpecification.isPassword;
-import static rest.repository.UserSpecification.isUserName;
 
 @Controller
 @RequestMapping(path = "/users")
@@ -26,12 +34,14 @@ public class UserController {
 
     @GetMapping
     public @ResponseBody
-    Iterable<User> searchBy(@RequestParam(required = false) String userName, @RequestParam(required = false) String password) {
+    List<User> searchBy(@RequestParam(required = false) String userName, @RequestParam(required = false) String password) {
+        List<User> users;
         if (isEmpty(userName) && isEmpty(password)) {
             return userRepository.findAll();
         } else {
-            return userRepository.findAll(where(isUserName(userName)).and(isPassword(password)));
+            users = userRepository.findByUserNameAndPassword(userName, password);
         }
+        return users;
     }
 
     @PutMapping(consumes = "application/json")
